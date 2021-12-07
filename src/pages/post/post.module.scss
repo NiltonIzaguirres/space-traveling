@@ -1,1 +1,71 @@
-// TODO
+.banner {
+  height: 400px;
+  width: 100%;
+  margin-bottom: 5.375rem;
+
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+.post {
+  h1 {
+    color: var(--white-300);
+    font-size: 3rem;
+    margin-bottom: 1.125rem;
+  }
+
+  .postInfos {
+    display: flex;
+    margin-bottom: 4rem;
+    color: var(--gray-500);
+    font-size: 0.875rem;
+
+    span {
+      display: flex;
+      align-items: center;
+
+      svg {
+        margin-right: 0.5rem;
+      }
+
+      & + span {
+        margin-left: 1.5rem;
+      }
+    }
+  }
+
+  section + section {
+    margin-top: 2.25rem;
+  }
+
+  h2 {
+    color: var(--white-300);
+    font-size: 2.25rem;
+    margin-bottom: 2.25rem;
+    line-height: 3.125rem;
+  }
+
+  .postContent {
+    color: var(--gray-300);
+    font-size: 1.125rem;
+    line-height: 1.56rem;
+
+    p {
+      margin-bottom: 1.125rem;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--pink-500);
+    }
+
+    pre {
+      border-radius: 12px;
+      margin-bottom: 1.125rem;
+      padding: 1rem 1rem;
+      background: var(--black-700);
+    }
+  }
+}
