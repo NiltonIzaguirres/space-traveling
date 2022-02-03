@@ -13,6 +13,7 @@ import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 import Header from '../components/Header';
 import { useState } from 'react';
+import { ExitPreview } from '../components/ExitPreview';
 
 interface Post {
   uid?: string;
@@ -31,9 +32,10 @@ interface PostPagination {
 
 interface HomeProps {
   postsPagination: PostPagination;
+  preview: boolean;
 }
 
-export default function Home({ postsPagination }: HomeProps) {
+export default function Home({ postsPagination, preview }: HomeProps) {
   const [posts, setPosts] = useState<Post[]>(postsPagination.results);
   const [nextPage, setNextPage] = useState<string>(postsPagination.next_page);
 
@@ -63,7 +65,7 @@ export default function Home({ postsPagination }: HomeProps) {
         <title>Home | Spacetraveling</title>
       </Head>
       
-      <main className={commonStyles.container} >
+      <main className={`${commonStyles.container} ${styles.container}`} >
 
         <ul className={styles.posts}>
           {posts.map(post => (
@@ -99,15 +101,20 @@ export default function Home({ postsPagination }: HomeProps) {
         >
           Carregar mais posts
         </button>}
+
+        {preview && <ExitPreview />}
       </main>
     </>
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ preview = false, previewData }) => {
   const prismic = getPrismicClient();
   const postsResponse = await prismic.query(
-    Prismic.predicates.at('document.type', 'post')
+    Prismic.predicates.at('document.type', 'post'),
+    {
+      ref: previewData?.ref ?? null,
+    }
   );
 
   const results = postsResponse.results.map((post => {
@@ -130,6 +137,7 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       postsPagination,
+      preview
     },
     revalidate: 60 * 60 * 24 // 24 hours
   }
