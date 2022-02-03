@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 
@@ -57,6 +58,18 @@ export default function Post({ post }: PostProps) {
       { locale: ptBR }
   )
 
+  useEffect(() => {
+    let script = document.createElement("script");
+    let anchor = document.getElementById("inject-comments-for-uterances");
+    script.setAttribute("src", "https://utteranc.es/client.js");
+    script.setAttribute("crossorigin","anonymous");
+    script.async = true;
+    script.setAttribute("repo", "NiltonIzaguirres/space-traveling");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute( "theme", "github-dark");
+    anchor.appendChild(script);
+  }, [])
+
   return (
     <>
       <Head>
@@ -97,9 +110,13 @@ export default function Post({ post }: PostProps) {
               </section>
             ))
           }
-          
         </article> 
       </main>
+
+      <footer>
+
+        <div id="inject-comments-for-uterances"></div>
+      </footer>
     </>
   )
 }
