@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import { getPrismicClient } from '../../services/prismic';
 import Prismic from '@prismicio/client';
@@ -36,9 +37,21 @@ interface Post {
 interface PostProps {
   post: Post;
   preview: boolean;
+  nextPost: {
+    uid: string;
+    data: {
+      title: string;
+    }
+  }
+  prevPost: {
+    uid: string;
+    data: {
+      title: string;
+    }
+  };
 }
 
-export default function Post({ post, preview }: PostProps) {
+export default function Post({ post, preview, nextPost, prevPost }: PostProps) {
   const router = useRouter();
 
   if(router.isFallback){
@@ -116,9 +129,30 @@ export default function Post({ post, preview }: PostProps) {
       </main>
 
       <footer className={`${commonStyles.container} ${styles.footer}`} >
+        <div className={styles.divider}></div>
+
+        <section className={styles.navigation}>
+          {prevPost && (
+            <div>
+              <h3>{prevPost.data.title}</h3>
+              <Link href={`/post/${prevPost.uid}`}>
+                <a>Post anterior</a>
+              </Link>
+            </div>
+          )}
+
+          {nextPost && (
+            <div>
+              <h3>{nextPost.data.title}</h3>
+              <Link href={`/post/${nextPost.uid}`}>
+                <a>Próximo post</a>
+              </Link>
+            </div>
+          )}
+        </section>
 
         <div id="inject-comments-for-uterances"></div>
-
+        
         {preview && <ExitPreview />}
       </footer>
     </>
@@ -146,6 +180,25 @@ export const getStaticProps: GetStaticProps = async ({ params, preview = false, 
     ref: previewData?.ref ?? null,
   });
 
+  const prevPost = (await prismic.query(
+    Prismic.predicates.at('document.type', 'post'), {
+      pageSize : 1 ,
+      after : `${response.id}`,
+      orderings: '[document.first_publication_date]'
+    }
+  )).results[0]
+
+  const nextPost = (await prismic.query(
+    Prismic.predicates.at('document.type', 'post'), {
+      pageSize : 1 ,
+      after : `${response.id}`,
+      orderings: '[document.first_publication_date desc]'
+    }
+  )).results[0]
+
+  console.log(nextPost);
+  console.log(prevPost);
+
   const post: Post = {
     uid: response.uid,
     first_publication_date: response.first_publication_date,
@@ -159,11 +212,13 @@ export const getStaticProps: GetStaticProps = async ({ params, preview = false, 
       content: response.data.content,
     }
   }
-  
+
   return {
     props: {
       post,
       preview,
+      prevPost: prevPost || null,
+      nextPost: nextPost || null,
     },
     revalidate: 60 * 30, // 30 Minutes
   }

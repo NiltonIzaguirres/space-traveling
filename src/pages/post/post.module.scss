@@ -71,6 +71,39 @@
 }
 
 .footer {
+  .divider {
+    border-top: 1px solid var(--black-700);
+    margin-top: 4rem;
+  }
+
+  .navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 3.2rem 0 5.33rem;
+
+    div {
+      h3 {
+        color: var(--white-300);
+        font-weight: 400;
+        font-size: 1.125rem;
+        line-height: 1.46;
+        margin-bottom:0.5rem;
+      }
+
+      a {
+        color:var(--pink-500);
+        font-weight:600;
+        text-decoration: none;
+      }
+    }
+
+    div + div {
+      text-align: right;
+    }
+  }
+
   aside {
     margin: 5.33rem 0;
   }
