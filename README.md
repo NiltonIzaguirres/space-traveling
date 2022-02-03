@@ -23,7 +23,7 @@
 
 <h2 id="about">❓ About</h2>
 
- 📖 Blog com comentários do Github e modo de visualização usando Prismic.
+ 📖 Blog with Github comments and preview mode using Prismic
 
 ### 💬 Pre-requisites
 
