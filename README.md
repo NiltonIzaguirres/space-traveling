@@ -3,7 +3,7 @@
 </h1>
 
 <h1 align="center">
-    <img alt="Spacetraveling Preview" src="https://cdn.discordapp.com/attachments/880027077884137492/938780759932698644/screencast-app.rocketseat.com.br-2022.02.03-09_53_01.gif" />
+    <img alt="Spacetraveling Preview" src="https://cdn.discordapp.com/attachments/880027077884137492/938785009760886884/ezgif.com-gif-maker.gif" />
 </h1>
 
 
